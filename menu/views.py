@@ -1,9 +1,9 @@
-from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
 from .models import Food
+
 
 class MenuView(TemplateView):
     template_name = 'menu_list.html'

@@ -9,6 +9,7 @@ from django.views.generic.edit import CreateView, DeleteView, FormView
 from .models import Order, OrderItem
 from .forms import SearchOrder, AddItems
 
+
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
 
@@ -31,8 +32,12 @@ class OrderCreate(CreateView):
     fields = [
         'table_number',
     ]
+
     def get_success_url(self):
-        return reverse_lazy('orders:order-items-add', kwargs={'pk': self.object.pk})
+        return reverse_lazy(
+            'orders:order-items-add',
+            kwargs={'pk': self.object.pk}
+        )
 
 
 class OrderItemsAdd(FormView):
@@ -60,12 +65,15 @@ class OrderItemsAdd(FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('orders:order-items-add', kwargs={'pk': self.kwargs['pk']})
+        return reverse(
+            'orders:order-items-add',
+            kwargs={'pk': self.kwargs['pk']}
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['order'] = self.get_order()
-        context['items'] = OrderItem.objects.filter(order = self.kwargs['pk'])
+        context['items'] = OrderItem.objects.filter(order=self.kwargs['pk'])
         return context
 
 
@@ -80,6 +88,7 @@ class OrderDelete(DeleteView):
         except Http404:
             raise Http404("Объект не найден, удаление невозможно.")
 
+
 class OrderStatusUpdate(View):
     def post(self, request, pk, status, *args, **kwargs):
         order = get_object_or_404(Order, pk=pk)
@@ -92,7 +101,9 @@ class OrderTotalPriceUpdate(View):
     def post(self, request, pk, *args, **kwargs):
         order = get_object_or_404(Order, pk=pk)
         order_items = OrderItem.objects.filter(order=order)
-        total_price = sum(item.food.price * item.quantity for item in order_items)
+        total_price = sum(
+            item.food.price * item.quantity for item in order_items
+        )
         order.total_price = total_price
         order.save()
 
@@ -104,9 +115,6 @@ class RevenueReportView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        start_time_str = self.request.GET.get('start_time')
-        end_time_str = self.request.GET.get('end_time')
 
         total_revenue = 0
         total_orders = 0
@@ -123,7 +131,6 @@ class RevenueReportView(TemplateView):
 
             total_revenue = sum([order.total_price for order in orders])
             total_orders = len(orders)
-            
 
         context['total_revenue'] = total_revenue
         context['total_orders'] = total_orders

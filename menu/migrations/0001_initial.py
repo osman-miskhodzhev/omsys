@@ -14,9 +14,23 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Food',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120)),
-                ('price', models.DecimalField(decimal_places=2, max_digits=100000)),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
+                (
+                    'name',
+                    models.CharField(max_length=120)
+                ),
+                (
+                    'price',
+                    models.DecimalField(decimal_places=2, max_digits=100000)
+                ),
             ],
         ),
     ]

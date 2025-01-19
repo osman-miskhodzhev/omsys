@@ -29,15 +29,41 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='order',
             name='total_price',
-            field=models.DecimalField(decimal_places=2, default=0, max_digits=100000),
+            field=models.DecimalField(
+                decimal_places=2,
+                default=0,
+                max_digits=100000
+            ),
         ),
         migrations.CreateModel(
             name='OrderItem',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.PositiveIntegerField(default=1)),
-                ('food', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='food_items', to='menu.food')),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='order_items', to='orders.order')),
+                (
+                    'id', models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
+                (
+                    'quantity', models.PositiveIntegerField(default=1)),
+                (
+                    'food',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='food_items',
+                        to='menu.food'
+                    )
+                ),
+                (
+                    'order',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='order_items',
+                        to='orders.order'
+                    )
+                ),
             ],
         ),
     ]
