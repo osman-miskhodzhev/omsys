@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>omsys</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/orders.css' %}">
+    <link rel="stylesheet" href="{% static 'css/delete_confirm.css' %}">
+</head>
+<body>
+    <header>
+        <img src="{% static 'logo.svg' %}">
+        <a href="{% url 'orders:order-create' %}">Добавить заказ</a>
+        <a href="{% url 'orders:orders-list' %}">Список заказов</a>
+        <a href="{% url 'orders:revenue_report' %}">Расчет выручки</a>
+        <a href="{% url 'menu:menu-list' %}">Меню</a>
+    </header>
+    <main>
+        {% block content %}
+        
+        {% endblock content %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,32 @@
+*{
+    margin: 0;
+}
+html{
+    background-color: #696969;
+}
+header{
+    background-color: #0674D5;
+    height: 60px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+header img{
+    margin: auto 40px;
+}
+header a{
+    margin: auto 20px;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+main{
+    width: 850px;
+    margin: 100px auto;
+}
+ul{
+    list-style: none;
+    padding: 0;
+}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Заказы</h1>
+<form method="get">{% csrf_token %}
+    {{search_form.as_p}}
+    <input type="submit" value="Поиск">
+</form>
+<table>
+    <tr>
+        <th>id</th>
+        <th>Номер стола</th>
+        <th>Заказ</th>
+        <th>Сумма</th>
+        <th>Статус</th>
+        <th>Операция</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{order.id}}</td>
+        <td>{{order.table_number}}</td>
+        <td>
+            <ul>
+                {% for item in order.order_items.all %}
+                    <li>{{ item.food.name }} x {{ item.quantity }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>{{order.total_price}} ₽</td>
+        <td>
+            {{ order.status }}
+
+             <form action="
+                {% if order.status == order.PENDING %}
+                    {% url 'orders:order-update-status' pk=order.id status=order.READY %}
+                {% elif order.status == order.READY %}
+                    {% url 'orders:order-update-status' pk=order.id status=order.PAID_FOR %}
+                {% endif %}" 
+                method="post">
+                {% csrf_token %}
+                {% if order.status == order.PENDING %}
+                    <button type="submit" class="status-btn">Заказ готов</button>
+                {% elif order.status == order.READY %}
+                    <button type="submit" class="status-btn">Провести оплату</button>
+                {% endif %}
+
+            </form>
+        </td>
+        <td><a href="{% url 'orders:order-delete' order.id %}" class='delete_link'>Удалить</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

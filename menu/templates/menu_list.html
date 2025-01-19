@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href='{% url "menu:food-add" %}'>Добавить блюдо</a>
+    <table>
+        <tr>
+            <th>Наименование</th>
+            <th>Цена</th>
+        </tr>
+        {% for menu_item in menu %}
+        <tr>
+            <td>{{ menu_item.name }}</td>
+            <td>{{ menu_item.price }} ₽</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}
