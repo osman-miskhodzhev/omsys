@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 
+
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{% if message.tags %}{{ message.tags }}{% endif %}">
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <h1>Заказы</h1>
 <form method="get">{% csrf_token %}
     {{search_form.as_p}}

@@ -1,3 +1,5 @@
+from django.contrib.messages.views import SuccessMessageMixin
+
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
@@ -14,7 +16,7 @@ class MenuView(TemplateView):
         return context
 
 
-class FoodAdd(CreateView):
+class FoodAdd(SuccessMessageMixin, CreateView):
     template_name = 'food_add.html'
     model = Food
     fields = [
@@ -22,3 +24,4 @@ class FoodAdd(CreateView):
         'price',
     ]
     success_url = reverse_lazy('menu:menu-list')
+    success_message = 'Блюдо успешно добавлено'

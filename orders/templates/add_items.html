@@ -1,18 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
+{{error_message}}
     <h1>Номер стола - {{ order.table_number }}</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Create Order</button>
+        <button type="submit">Добавить</button>
     </form>
 
     {% for item in items %}
     {{item.food.name}} - {{item.quantity}}<br>
     {% endfor %}
+    {% if items|length != 0 %}
     <form action="{% url 'orders:order-update-total' pk=order.id %}" method="post">
         {% csrf_token %}
         <button type="submit">Сохранить</button>
     </form>
+    {% endif %}
+    
 {% endblock content %}

@@ -1,13 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.http import Http404
+from django.contrib import messages
+
 
 from django.views import View
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView, DeleteView, FormView
+from django.views.generic.edit import (
+    DeleteView,
+    FormView,
+)
 
 from .models import Order, OrderItem
-from .forms import SearchOrder, AddItems
+from .forms import SearchOrder, AddItems, AddOrders
 
 
 def custom_404(request, exception):
@@ -23,46 +28,49 @@ class OrdersView(TemplateView):
         context["orders"] = Order.search_orders(search_query)
         context["search_form"] = SearchOrder()
         context["orders_items"] = OrderItem()
+        print(self.request)
         return context
 
 
-class OrderCreate(CreateView):
+class OrderCreate(FormView):
     template_name = 'order_add.html'
-    model = Order
-    fields = [
-        'table_number',
-    ]
+    form_class = AddOrders
 
     def get_success_url(self):
         return reverse_lazy(
             'orders:order-items-add',
-            kwargs={'pk': self.object.pk}
+            kwargs={'pk': self.order.pk}
         )
+
+    def form_valid(self, form):
+        self.order = form.save()
+        return super().form_valid(form)
 
 
 class OrderItemsAdd(FormView):
     template_name = 'add_items.html'
     form_class = AddItems
 
-    def get_order(self):
-        return Order.objects.get(pk=self.kwargs['pk'])
-
     def form_valid(self, form):
-        order = self.get_order()
-        food = form.cleaned_data['food']
-        quantity = form.cleaned_data['quantity']
+        try:
+            order = Order.objects.get(pk=self.kwargs['pk'])
+            food = form.cleaned_data['food']
+            quantity = form.cleaned_data['quantity']
 
-        order_item, created = OrderItem.objects.get_or_create(
-            order=order,
-            food=food,
-            defaults={'quantity': quantity}
-        )
+            order_item, created = OrderItem.objects.get_or_create(
+                order=order,
+                food=food,
+                defaults={'quantity': quantity}
+            )
 
-        if not created:
-            order_item.quantity += quantity
-            order_item.save()
+            if not created:
+                order_item.quantity += quantity
+                order_item.save()
 
-        return super().form_valid(form)
+            return super().form_valid(form)
+        except Order.DoesNotExist:
+            messages.error(self.request, "Такого заказа не существует.")
+            return redirect('orders:orders-list')
 
     def get_success_url(self):
         return reverse(
@@ -72,7 +80,7 @@ class OrderItemsAdd(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['order'] = self.get_order()
+        context['order'] = Order.objects.get(pk=self.kwargs['pk'])
         context['items'] = OrderItem.objects.filter(order=self.kwargs['pk'])
         return context
 
@@ -86,26 +94,47 @@ class OrderDelete(DeleteView):
         try:
             return super().get_object(queryset)
         except Http404:
-            raise Http404("Объект не найден, удаление невозможно.")
+            messages.error(
+                self.request,
+                "Нет такого заказа"
+            )
+            return redirect('orders:orders-list')
 
 
 class OrderStatusUpdate(View):
     def post(self, request, pk, status, *args, **kwargs):
-        order = get_object_or_404(Order, pk=pk)
-        order.status = status
-        order.save()
-        return redirect('orders:orders-list')
+        try:
+            order = get_object_or_404(Order, pk=pk)
+
+            if status not in ['pending', 'approved', 'cancelled']:
+                messages.error(request, f"Некорректный статус: {status}")
+                return redirect('orders:orders-list')
+            order.status = status
+            order.save()
+            messages.success(request, f"Обнавлен статус заказа {pk}")
+            return redirect('orders:orders-list')
+
+        except Http404:
+            messages.error(
+                request,
+                "Нет такого объекта"
+            )
+            return redirect('orders:orders-list')
 
 
 class OrderTotalPriceUpdate(View):
     def post(self, request, pk, *args, **kwargs):
-        order = get_object_or_404(Order, pk=pk)
-        order_items = OrderItem.objects.filter(order=order)
-        total_price = sum(
-            item.food.price * item.quantity for item in order_items
-        )
-        order.total_price = total_price
-        order.save()
+        try:
+            order = get_object_or_404(Order, pk=pk)
+            order_items = OrderItem.objects.filter(order=order)
+            total_price = sum(
+                item.food.price * item.quantity for item in order_items
+            )
+            order.total_price = total_price
+            order.save()
+        except Http404:
+            messages.error(self.request, "Такого заказа не существует.")
+            return redirect('orders:orders-list')
 
         return redirect('orders:orders-list')
 
@@ -118,23 +147,17 @@ class RevenueReportView(TemplateView):
 
         total_revenue = 0
         total_orders = 0
-        orders = None
 
         start_time = self.request.GET.get('start_time')
         end_time = self.request.GET.get('end_time')
 
-        if start_time and end_time:
-            orders = Order.objects.filter(
-                status='оплачено',
-                created_at__range=[start_time, end_time]
-            )
+        data = Order.get_revenue(start_time, end_time)
 
-            total_revenue = sum([order.total_price for order in orders])
-            total_orders = len(orders)
+        if data:
+            total_orders, total_revenue = data
 
         context['total_revenue'] = total_revenue
         context['total_orders'] = total_orders
-        context['orders'] = orders
         context['start_time'] = start_time
         context['end_time'] = end_time
 
