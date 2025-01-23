@@ -14,9 +14,10 @@ app_name = 'api'
 
 router = routers.DefaultRouter()
 router.register(r'orders', OrderModelViewSet)
-router.register(r'orders-itmes', OrderItemModelViewSet)
+router.register(r'orders_itmes', OrderItemModelViewSet)
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('menu/', FoodListAPIView.as_view(), name='menu-api'),
     path('orders/search/', OrderSearchView.as_view(), name='order-search'),
     path(
@@ -24,5 +25,4 @@ urlpatterns = [
         CalculateRevenueView.as_view(),
         name='calculate-revenue'
     ),
-    path('', include(router.urls)),
 ]

@@ -24,7 +24,7 @@ class Order(models.Model):
     )
     status = models.CharField(
         verbose_name='Статус заказа',
-        max_length=3,
+        max_length=9,
         default=PENDING,
     )
     created_at = models.DateTimeField(

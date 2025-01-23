@@ -12,6 +12,10 @@ class OrderItemSerializer(serializers.ModelSerializer):
             'food_id',
             'quantity'
         ]
+    def create(self, validated_data):
+        print(validated_data)  # Для отладки: убедитесь, что food передается
+        return super().create(validated_data)
+
 
 
 class OrderSerializer(serializers.ModelSerializer):
