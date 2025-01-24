@@ -29,6 +29,14 @@ class OrderItemModelViewSet(ModelViewSet):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
 
+    def perform_create(self, serializer):
+        order_item = serializer.save()
+        order_item.order.update_total_price()
+
+    def perform_update(self, serializer):
+        order_item = serializer.save()
+        order_item.order.update_total_price()
+
 
 class OrderSearchView(ListAPIView):
     serializer_class = OrderSerializer

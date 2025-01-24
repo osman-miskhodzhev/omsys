@@ -63,6 +63,17 @@ class Order(models.Model):
             total_orders = len(orders)
             return (total_orders, total_revenue)
 
+    def update_total_price(self):
+        order_items = self.items()
+        if not order_items.exists():
+            raise Http404("Нет связанных пунктов заказа.")
+
+        total_price = sum(
+            item.food.price * item.quantity for item in order_items
+        )
+        self.total_price = total_price
+        self.save()
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
@@ -83,3 +94,16 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"заказ {self.order.id} | {self.food.name} {self.quantity} шт."
+    
+    def add_item(order, food, quantity):
+        order_item, created = OrderItem.objects.get_or_create(
+            order=order,
+            food=food,
+            defaults={'quantity': quantity}
+        )
+
+        if not created:
+            order_item.quantity += quantity
+            order_item.save()
+
+        return order_item, created

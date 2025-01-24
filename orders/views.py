@@ -57,20 +57,14 @@ class OrderItemsAdd(FormView):
             food = form.cleaned_data['food']
             quantity = form.cleaned_data['quantity']
 
-            order_item, created = OrderItem.objects.get_or_create(
-                order=order,
-                food=food,
-                defaults={'quantity': quantity}
-            )
+            OrderItem.add_item(order=order, food=food, quantity=quantity)
 
-            if not created:
-                order_item.quantity += quantity
-                order_item.save()
-
+            messages.success(self.request, "Пункт заказа успешно добавлен.")
             return super().form_valid(form)
         except Order.DoesNotExist:
             messages.error(self.request, "Такого заказа не существует.")
             return redirect('orders:orders-list')
+        
 
     def get_success_url(self):
         return reverse(
@@ -126,16 +120,19 @@ class OrderTotalPriceUpdate(View):
     def post(self, request, pk, *args, **kwargs):
         try:
             order = get_object_or_404(Order, pk=pk)
-            order_items = OrderItem.objects.filter(order=order)
-            total_price = sum(
-                item.food.price * item.quantity for item in order_items
-            )
-            order.total_price = total_price
-            order.save()
+            order.update_total_price()
         except Http404:
-            messages.error(self.request, "Такого заказа не существует.")
+            messages.error(
+                request,
+                "Такого заказа не существует или отсутствуют пункты заказа."
+            )
             return redirect('orders:orders-list')
 
+        except Exception as e:
+            messages.error(request, f"Ошибка: {e}")
+            return redirect('orders:orders-list')
+        
+        messages.success(request, "Общая стоимость заказа успешно обновлена.")
         return redirect('orders:orders-list')
 
 
