@@ -1,0 +1,27 @@
+table{
+    width: 100%;
+    text-align: center;
+    margin: 10px auto;
+    border-collapse: collapse;
+    border-radius: 5px;
+}
+tr{
+    background-color: #94C3ED;
+    height: 40px;
+    border-bottom: 1px solid white;
+}
+th{
+    font-size: 24px;
+}
+td{
+    font-size: 16px;
+    text-align: center;
+}
+.delete_link{
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px 15px;
+    background-color: #9b0a0a;
+}
