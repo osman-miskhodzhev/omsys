@@ -60,9 +60,7 @@ ul{
 }
 
 .revenue_result{
-    border: 1px solid red;
-    color: white;
-    /* font-size: 20px; */
+    color: #000000;
     text-align: center;
     margin: 50px auto;
 }

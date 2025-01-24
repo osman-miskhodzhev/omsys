@@ -79,15 +79,18 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
+        verbose_name='Заказ',
         related_name='order_items'
     )
     food = models.ForeignKey(
         Food,
         on_delete=models.CASCADE,
+        verbose_name='Блюдо',
         related_name='food_items'
     )
     quantity = models.PositiveIntegerField(
         default=1,
+        verbose_name='Количество',
         validators=[
             MinValueValidator(1)
         ]
