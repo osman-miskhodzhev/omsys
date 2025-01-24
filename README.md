@@ -8,8 +8,6 @@
 Стек: Python 3.10+, Django 4.2
 
 ## Содержание
-- [OMSYS Order Management System](#omsys-order-management-system)
-  - [Содержание](#содержание)
   - [Установка](#установка)
     - [Ubuntu](#ubuntu)
   - [Использование приложения](#использование-приложения)
