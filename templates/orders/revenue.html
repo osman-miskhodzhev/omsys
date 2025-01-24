@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block header %}
+    Расчет выручки за смену
+{% endblock header %}
+{% block content %}
+    <form method="get" class='add_form'>{% csrf_token %}
+        {% for input in form %}
+            {{input.label}}
+            {{input}} <br>
+        {% endfor %}
+        <button type="submit">Рассчитать</button>
+    </form>
+  {% if total_revenue or total_orders %}
+        <div class="revenue_result">
+            <h2>Результаты:</h2>
+            <p>Общая выручка: {{ total_revenue }} руб.</p>
+            <p>Количество заказов: {{ total_orders }}</p>
+        </div>
+    {% else %}
+        <p>Введите параметры смены, чтобы увидеть результаты.</p>
+    {% endif %}
+{% endblock content %}

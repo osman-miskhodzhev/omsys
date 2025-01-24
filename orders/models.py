@@ -52,10 +52,10 @@ class Order(models.Model):
     def items(self):
         return OrderItem.objects.filter(order_id=self.pk)
 
-    def get_revenue(start_time, end_time):
+    def get_revenue(status, start_time, end_time):
         if start_time and end_time:
             orders = Order.objects.filter(
-                status='оплачено',
+                status=status,
                 created_at__range=[start_time, end_time]
             )
 
@@ -86,7 +86,12 @@ class OrderItem(models.Model):
         on_delete=models.CASCADE,
         related_name='food_items'
     )
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(
+        default=1,
+        validators=[
+            MinValueValidator(1)
+        ]
+    )
 
     class Meta:
         verbose_name = 'Пункт заказа'

@@ -6,7 +6,7 @@ from .views import (
     OrderStatusUpdate,
     OrderItemsAdd,
     OrderTotalPriceUpdate,
-    RevenueReportView
+    RevenueView,
 )
 
 app_name = 'orders'
@@ -31,5 +31,5 @@ urlpatterns = [
         OrderTotalPriceUpdate.as_view(),
         name='order-update-total'
     ),
-    path('revenue/', RevenueReportView.as_view(), name='revenue_report'),
+    path('revenue/', RevenueView.as_view(), name='revenue_report'),
 ]

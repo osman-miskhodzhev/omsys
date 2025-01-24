@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
+{% block header %}
+    Меню
+{% endblock header %}
+
 {% block content %}
 {% for message in messages %}
 <h3>{{ message }}</h3>
 {% endfor %}
-    <a href='{% url "menu:food-add" %}'>Добавить блюдо</a>
+    <a href='{% url "menu:food-add" %}' class='add_link'>Добавить блюдо</a>
     <table>
         <tr>
             <th>Наименование</th>

@@ -40,3 +40,18 @@ class AddOrders(forms.ModelForm):
                 'min_value': 'Номер стола должен быть больше 0.',
             },
         }
+
+
+class RevenueForm(forms.Form):
+    start_time = forms.DateTimeField(
+        label='Начало смены',
+        widget=forms.DateTimeInput(attrs={
+            'type': 'datetime-local',
+        }),
+    )
+    end_time = forms.DateTimeField(
+        label='Конец смены',
+        widget=forms.DateTimeInput(attrs={
+            'type': 'datetime-local',
+        }),
+    )

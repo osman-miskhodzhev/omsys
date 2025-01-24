@@ -8,7 +8,7 @@ from .models import Food
 
 
 class MenuView(TemplateView):
-    template_name = 'menu_list.html'
+    template_name = 'menu/menu_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -17,7 +17,7 @@ class MenuView(TemplateView):
 
 
 class FoodAdd(SuccessMessageMixin, CreateView):
-    template_name = 'food_add.html'
+    template_name = 'menu/food_add.html'
     model = Food
     fields = [
         'name',

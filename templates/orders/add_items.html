@@ -1,11 +1,19 @@
 {% extends "base.html" %}
 
+{% block header %}
+    Добавить пункт меню
+{% endblock header %}
+
 {% block content %}
 {{error_message}}
     <h1>Номер стола - {{ order.table_number }}</h1>
-    <form method="post">
+    <form method="post" class='add_form'>
         {% csrf_token %}
-        {{ form.as_p }}
+        {% comment %} {{ form }} {% endcomment %}
+        {% for input in form %}
+            <label>{{input.label}}</label><br>
+            {{input}}<br>
+        {% endfor %}
         <button type="submit">Добавить</button>
     </form>
 
@@ -13,7 +21,7 @@
     {{item.food.name}} - {{item.quantity}}<br>
     {% endfor %}
     {% if items|length != 0 %}
-    <form action="{% url 'orders:order-update-total' pk=order.id %}" method="post">
+    <form action="{% url 'orders:order-update-total' pk=order.id %}" method="post" class='add_form'>
         {% csrf_token %}
         <button type="submit">Сохранить</button>
     </form>

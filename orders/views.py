@@ -12,7 +12,7 @@ from django.views.generic.edit import (
 )
 
 from .models import Order, OrderItem
-from .forms import SearchOrder, AddItems, AddOrders
+from .forms import SearchOrder, AddItems, AddOrders, RevenueForm
 
 
 def custom_404(request, exception):
@@ -20,7 +20,7 @@ def custom_404(request, exception):
 
 
 class OrdersView(TemplateView):
-    template_name = 'orders.html'
+    template_name = 'orders/orders.html'
 
     def get_context_data(self, **kwargs):
         search_query = self.request.GET.get('request_text', '')
@@ -33,7 +33,7 @@ class OrdersView(TemplateView):
 
 
 class OrderCreate(FormView):
-    template_name = 'order_add.html'
+    template_name = 'orders/order_add.html'
     form_class = AddOrders
 
     def get_success_url(self):
@@ -48,7 +48,7 @@ class OrderCreate(FormView):
 
 
 class OrderItemsAdd(FormView):
-    template_name = 'add_items.html'
+    template_name = 'orders/add_items.html'
     form_class = AddItems
 
     def form_valid(self, form):
@@ -80,7 +80,7 @@ class OrderItemsAdd(FormView):
 
 
 class OrderDelete(DeleteView):
-    template_name = 'delete_confirm.html'
+    template_name = 'orders/delete_confirm.html'
     model = Order
     success_url = reverse_lazy('orders:orders-list')
 
@@ -136,26 +136,22 @@ class OrderTotalPriceUpdate(View):
         return redirect('orders:orders-list')
 
 
-class RevenueReportView(TemplateView):
-    template_name = 'revenue.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        total_revenue = 0
-        total_orders = 0
-
-        start_time = self.request.GET.get('start_time')
-        end_time = self.request.GET.get('end_time')
-
-        data = Order.get_revenue(start_time, end_time)
-
-        if data:
+class RevenueView(View):
+    template_name = 'orders/revenue.html'
+    def get(self, request):
+        form = RevenueForm(request.GET)
+        context = {'form': form}
+        if form.is_valid():
+            total_revenue = 0
+            total_orders = 0
+            start_time = self.request.GET.get('start_time')
+            end_time = self.request.GET.get('end_time')
+            data = Order.get_revenue(Order.PAID_FOR, start_time, end_time)
             total_orders, total_revenue = data
 
-        context['total_revenue'] = total_revenue
-        context['total_orders'] = total_orders
-        context['start_time'] = start_time
-        context['end_time'] = end_time
+            context['total_revenue'] = total_revenue
+            context['total_orders'] = total_orders
+            context['start_time'] = start_time
+            context['end_time'] = end_time
 
-        return context
+        return render(request, self.template_name, context)

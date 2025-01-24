@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block header %}
+    Добавить заказ
+{% endblock header %}
+{% block content %}
+{{error_message}}
+<a href='#'>{{form.non_field_errors}}</a>
+<form method="post" class='add_form'>{% csrf_token %}
+    {% for input in form %}
+        <label>{{input.label}}</label> <br>
+        {{input}} <br>
+    {% endfor %}
+    <input type="submit" value="Сохранить">
+</form>
+{% endblock content %}

@@ -12,11 +12,16 @@
 <body>
     <header>
         <img src="{% static 'logo.svg' %}">
-        <a href="{% url 'orders:order-create' %}">Добавить заказ</a>
         <a href="{% url 'orders:orders-list' %}">Список заказов</a>
+        <a href="{% url 'orders:order-create' %}">Добавить заказ</a>
         <a href="{% url 'orders:revenue_report' %}">Расчет выручки</a>
         <a href="{% url 'menu:menu-list' %}">Меню</a>
     </header>
+    <h1 class='page_name_header'>
+        {% block header %}
+        
+        {% endblock header %}
+    </h1>
     <main>
         {% block content %}
         
