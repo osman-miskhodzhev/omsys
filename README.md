@@ -44,7 +44,7 @@ python3 manage.py runserver
 ### 1. Добавить заказ
 Для того чтобы добавить заказ, необходимо перейти во страницу "Добавить заказ", в которой необходимо ввести номер стола, нажать кнопку "Сохранить". Далее должна пройзойти переадресация на страницу добавления пунктов заказа.
 <p style="text-align: center;">
-<img src="documentation/2.order_add_table_num.png"><br>Рисунок 3. Ввод номера стола
+<img align='center' src="documentation/2.order_add_table_num.png"><br>Рисунок 3. Ввод номера стола
 </p>
 
 Для добавления пунктов заказа необходимо в выпадающем списке выбрать нужное блюдо, указать количество и нажать на кнопку "Добавить". Процедуру можно повтарять несколько раз. При указании двух одинаковых блюд количество увеличивается автоматически. Элементы заказа отображаются внизу. Когда заказ сформирован, необходимо нажать на кнопку "Сохранить" 
@@ -96,29 +96,29 @@ python3 manage.py runserver
 
 Для того чтобы последовательно изменять стату заказа, под отобажением текущего статуса расположена кнопка, по нажатии на которую статус меняется на следующий
 <p style="text-align: center;">
-<img src="documentation/status_pending.png"><br>Рисунок 5. Статус заказа "pending"
+<img align='center' src="documentation/status_pending.png"><br>Рисунок 5. Статус заказа "pending"
 </p>
 
 <p style="text-align: center;">
-<img src="documentation/status_approved.png"><br>Рисунок 6. Статус заказа "pending"
+<img align='center' src="documentation/status_approved.png"><br>Рисунок 6. Статус заказа "pending"
 </p>
 При отображении последнего статуса кнопка пропадает.
 
 <p style="text-align: center;">
-<img src="documentation/status_cancelled.png"><br>Рисунок 7. Статус заказа "pending"
+<img align='center' src="documentation/status_cancelled.png"><br>Рисунок 7. Статус заказа "pending"
 </p>
 
 ### 6. Расчет выручки за смену
 Для того чтобы расчитать выручку за смену необходимо перейти на страницу "Расчет выручки"
 
 <p style="text-align: center;">
-<img src="documentation/revenue.png"><br>Рисунок 12. Страница для расчета выручки за смену
+<img align='center' src="documentation/revenue.png"><br>Рисунок 12. Страница для расчета выручки за смену
 </p>
 
 Далее необходимо выбрать время начала смены и время конца смены и нажать на кнопку с надписью "Расчитать". Расчет выручки производится по заказам созданным в заданый временной промежуток и со статусом "cancelled"
 
 <p style="text-align: center;">
-<img src="documentation/revenue_result.png"><br>Рисунок 13. Результат расчета выручки
+<img align='center' src="documentation/revenue_result.png"><br>Рисунок 13. Результат расчета выручки
 </p>
 
 Результат состоит из количества заказов и общей суммы всех заказов.
