@@ -1,7 +1,7 @@
 # OMSYS Order Management System
 
 <p style="text-align: center;">
-<img src="documentation/logo.svg"><br>Рисунок 1. Логотип
+<img src="documentation/logo.svg">
 </p>
 Система предназначена для управления заказами в кафе.
 
@@ -42,47 +42,47 @@ python3 manage.py runserver
 ### 1. Добавить заказ
 Для того чтобы добавить заказ, необходимо перейти во страницу "Добавить заказ", в которой необходимо ввести номер стола, нажать кнопку "Сохранить". Далее должна пройзойти переадресация на страницу добавления пунктов заказа.
 <p style="text-align: center;">
-<img align='center' src="documentation/2.order_add_table_num.png"><br>Рисунок 3. Ввод номера стола
+<img align='center' src="documentation/2.order_add_table_num.png"><br>Рисунок 1. Ввод номера стола
 </p>
 
 Для добавления пунктов заказа необходимо в выпадающем списке выбрать нужное блюдо, указать количество и нажать на кнопку "Добавить". Процедуру можно повтарять несколько раз. При указании двух одинаковых блюд количество увеличивается автоматически. Элементы заказа отображаются внизу. Когда заказ сформирован, необходимо нажать на кнопку "Сохранить" 
 
 <p style="text-align: center;">
-<img src="documentation/3.order_add_items_add.png"><br>Рисунок 4. Добавление пунктов заказа
+<img src="documentation/3.order_add_items_add.png"><br>Рисунок 2. Добавление пунктов заказа
 </p>
 
 По нажатии на кнопку "Сохранить" должна пройзойти переадресация на страницу с таблицей заказов.
 
 <p style="text-align: center;">
-<img src="documentation/4.orders_add_orders_list.png"><br>Рисунок 4. Добавление пунктов заказа
+<img src="documentation/4.orders_add_orders_list.png"><br>Рисунок 3. Добавление пунктов заказа
 </p>
 
 ### 2. Удаление заказов
 Для того чтобы удалить заказ необходимо в колонке "Операция" найти необходимый заказ и нажать на ссылку для удаления с надписью "Удалить"
 
 <p style="text-align: center;">
-<img src="documentation/delete.png"><br>Рисунок 8. Удалить
+<img src="documentation/delete.png"><br>Рисунок 4. Удалить
 </p>
 
 ### 3. Поиск заказа
 Поиск заказа в приложении осуществляется по номеру стола или статусу через поисковую строку, которая располагается сверху таблицы с заказами.
 
 <p style="text-align: center;">
-<img src="documentation/search.png"><br>Рисунок 9. Строка поиска
+<img src="documentation/search.png"><br>Рисунок 5. Строка поиска
 </p>
 
 <p style="text-align: center;">
-<img src="documentation/search_order_list.png"><br>Рисунок 10. Таблица со всеми заказами
+<img src="documentation/search_order_list.png"><br>Рисунок 6. Таблица со всеми заказами
 </p>
 
 <p style="text-align: center;">
-<img src="documentation/search_table_number.png"><br>Рисунок 11. Результат поиска по статусу - approved
+<img src="documentation/search_table_number.png"><br>Рисунок 7. Результат поиска по статусу - approved
 </p>
 
 ### 4. Просмотр заказов
 Для просмотра заказов необходимо перейти на вкладку "Список заказов". Список заказов реализован в виде таблицы, отражающей основную информацию о заказе, включая элементы заказа. 
 <p style="text-align: center;">
-<img src="documentation/start.png"><br>Рисунок 2. Страница со списком заказов
+<img src="documentation/start.png"><br>Рисунок 8. Страница со списком заказов
 </p>
 
 ### 5. Изменение статуса заказа
@@ -94,16 +94,16 @@ python3 manage.py runserver
 
 Для того чтобы последовательно изменять стату заказа, под отобажением текущего статуса расположена кнопка, по нажатии на которую статус меняется на следующий
 <p style="text-align: center;">
-<img align='center' src="documentation/status_pending.png"><br>Рисунок 5. Статус заказа "pending"
+<img align='center' src="documentation/status_pending.png"><br>Рисунок 9. Статус заказа "pending"
 </p>
 
 <p style="text-align: center;">
-<img align='center' src="documentation/status_approved.png"><br>Рисунок 6. Статус заказа "pending"
+<img align='center' src="documentation/status_approved.png"><br>Рисунок 10. Статус заказа "pending"
 </p>
 При отображении последнего статуса кнопка пропадает.
 
 <p style="text-align: center;">
-<img align='center' src="documentation/status_cancelled.png"><br>Рисунок 7. Статус заказа "pending"
+<img align='center' src="documentation/status_cancelled.png"><br>Рисунок 11. Статус заказа "pending"
 </p>
 
 ### 6. Расчет выручки за смену
